@@ -22,7 +22,7 @@ A `Row` is a slice of `float64`.
 
 Thus, you can build a Matrix that way:
 
-```golang
+```go
 myMatrix := matrix.Matrix{
   matrix.Row{  10.0, -5.3,   22.0 },
   matrix.Row{ -2.0,  -25.0,  12.0 },
@@ -35,7 +35,7 @@ myMatrix := matrix.Matrix{
 Documentation details are provided after this section, but here is what the lib
 allows you to do in a glance:
 
-```golang
+```go
 package main
 
 import (
@@ -229,7 +229,7 @@ each cell, and should return the new `float64` value for that cell.
 
 So, for example, if you want to multiply each value by 2 and add 1:
 
-```golang
+```go
 operation := func( value float64 ) float64 {
   return value * 2 + 1
 }
@@ -251,7 +251,7 @@ operation error'd.
 
 So, for example, if you want to divide each cell of matrix by corresponding cell in otherMatrix:
 
-```golang
+```go
 operation := func( value float64, otherValue float64 ) float64 {
   return value / otherValue
 }
@@ -270,6 +270,6 @@ so that you can see the stacktrace.
 
 If you want that, use once:
 
-```golang
+```go
 matrix.SetDebug( true )
 ```
