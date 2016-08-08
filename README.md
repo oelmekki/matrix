@@ -8,7 +8,7 @@ This is not intended to exhaustively implements all possible mathematical operat
 ## Install
 
 ```
-go get oelmekki/matrix
+go get github.com/oelmekki/matrix
 ```
 
 
