@@ -22,16 +22,89 @@ A `Row` is a slice of `float64`.
 
 Thus, you can build a Matrix that way:
 
-```
-import (
-  "github.com/oelmekki/matrix"
-)
-
+```golang
 myMatrix := matrix.Matrix{
   matrix.Row{  10.0, -5.3,   22.0 },
   matrix.Row{ -2.0,  -25.0,  12.0 },
   matrix.Row{  7.0,   5.3,  -12.5 },
 }
+```
+
+## Demo
+
+Documentation details are provided after this section, but here is what the lib
+allows you to do in a glance:
+
+```golang
+package main
+
+import (
+  "github.com/oelmekki/matrix"
+  "fmt"
+)
+
+func main() {
+  firstMatrix := matrix.Matrix{
+    matrix.Row{  10, -5.3,  22   },
+    matrix.Row{  -2, -25,   12   },
+    matrix.Row{   7,  5,   -12.5 },
+  }
+
+  // tests
+
+  println( firstMatrix.Valid() ) // true
+
+  secondMatrix := matrix.Matrix{
+    matrix.Row{  12, -15.5 },
+    matrix.Row{ -4,  -5    },
+    matrix.Row{  3,   2.5  },
+  }
+
+  println( firstMatrix.SameDimensions( &secondMatrix ) ) // false
+
+  thirdMatrix := matrix.Matrix{
+    matrix.Row{  1,   7.2,    2   },
+    matrix.Row{  2,   5,      1   },
+    matrix.Row{  2,  -25.3,  -2.5 },
+  }
+
+  println( firstMatrix.SameDimensions( &thirdMatrix ) ) // true
+  println( firstMatrix.EqualTo( &thirdMatrix ) ) // false
+
+  // operations
+
+  newMatrix, _ := firstMatrix.ScalarMultiply( 10.0 )
+  fmt.Printf( "%v\n", newMatrix )
+  /*
+   * [
+   *   [  100 -53   220 ]
+   *   [ -20  -250  120 ]
+   *   [  70   53  -125 ]
+   * ]
+   */
+
+  newMatrix, _ = firstMatrix.DotProduct( &secondMatrix )
+  fmt.Printf( "%v\n", newMatrix )
+  /*
+   * [
+   *   [ 207.2  -73.5   ]
+   *   [ 112     186    ]
+   *   [ 26.5   -164.75 ]
+   * ]
+   */
+
+  newMatrix, _ = secondMatrix.Transpose()
+  fmt.Printf( "%v\n", newMatrix )
+  /*
+   * [
+   *   [ 12     -4   3   ]
+   *   [ -15.5  -5   2.5 ]
+   * ]
+   */
+
+   // and more! See doc below
+}
+
 ```
 
 
@@ -156,7 +229,7 @@ each cell, and should return the new `float64` value for that cell.
 
 So, for example, if you want to multiply each value by 2 and add 1:
 
-```
+```golang
 operation := func( value float64 ) float64 {
   return value * 2 + 1
 }
@@ -178,7 +251,7 @@ operation error'd.
 
 So, for example, if you want to divide each cell of matrix by corresponding cell in otherMatrix:
 
-```
+```golang
 operation := func( value float64, otherValue float64 ) float64 {
   return value / otherValue
 }
@@ -197,6 +270,6 @@ so that you can see the stacktrace.
 
 If you want that, use once:
 
-```
+```golang
 matrix.SetDebug( true )
 ```
