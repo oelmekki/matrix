@@ -32,11 +32,11 @@ Two types are provided to build `Matrix` : `Builder` and `Row`.
 
 ```go
 myMatrix, err := matrix.Build(
-	matrix.Builder {
-		matrix.Row{  10.0, -5.3,   22.0 },
-		matrix.Row{ -2.0,  -25.0,  12.0 },
-		matrix.Row{  7.0,   5.3,  -12.5 },
-	},
+  matrix.Builder {
+    matrix.Row{  10.0, -5.3,   22.0 },
+    matrix.Row{ -2.0,  -25.0,  12.0 },
+    matrix.Row{  7.0,   5.3,  -12.5 },
+  },
 )
 if err != nil { println( "You passed a 0x0 or 1x0 matrix." ) }
 ```
@@ -58,38 +58,38 @@ import (
 )
 
 func main() {
-	firstMatrix, _ := matrix.Build(
-		matrix.Builder {
-			matrix.Row{  10, -5.3,  22   },
-			matrix.Row{  -2, -25,   12   },
-			matrix.Row{   7,  5,   -12.5 },
-		},
-	)
+  firstMatrix, _ := matrix.Build(
+    matrix.Builder {
+      matrix.Row{  10, -5.3,  22   },
+      matrix.Row{  -2, -25,   12   },
+      matrix.Row{   7,  5,   -12.5 },
+    },
+  )
 
   // tests
 
   println( firstMatrix.Valid() ) // true
-	fmt.Printf( "%v\n", firstMatrix.At( 1, 1 ) ) // -25
-	fmt.Printf( "%v\n", firstMatrix.Rows() ) // 3
-	fmt.Printf( "%v\n", firstMatrix.Cols() ) // 3
+  fmt.Printf( "%v\n", firstMatrix.At( 1, 1 ) ) // -25
+  fmt.Printf( "%v\n", firstMatrix.Rows() ) // 3
+  fmt.Printf( "%v\n", firstMatrix.Cols() ) // 3
 
   secondMatrix, _ := matrix.Build(
-		matrix.Builder {
-			matrix.Row{  12, -15.5 },
-			matrix.Row{ -4,  -5    },
-			matrix.Row{  3,   2.5  },
-		},
-	)
+    matrix.Builder {
+      matrix.Row{  12, -15.5 },
+      matrix.Row{ -4,  -5    },
+      matrix.Row{  3,   2.5  },
+    },
+  )
 
   println( firstMatrix.SameDimensions( secondMatrix ) ) // false
 
   thirdMatrix, _ := matrix.Build(
-		matrix.Builder {
-			matrix.Row{  1,   7.2,    2   },
-			matrix.Row{  2,   5,      1   },
-			matrix.Row{  2,  -25.3,  -2.5 },
-		},
-	)
+    matrix.Builder {
+      matrix.Row{  1,   7.2,    2   },
+      matrix.Row{  2,   5,      1   },
+      matrix.Row{  2,  -25.3,  -2.5 },
+    },
+  )
 
   println( firstMatrix.SameDimensions( thirdMatrix ) ) // true
   println( firstMatrix.EqualTo( thirdMatrix ) ) // false
@@ -148,11 +148,11 @@ This allows to have a human friendly looking way of initializing matrices:
 
 ```go
 myMatrix, _ := matrix.Build(
-	matrix.Builder {
-		matrix.Row{  10, -5.3,  22   },
-		matrix.Row{  -2, -25,   12   },
-		matrix.Row{   7,  5,   -12.5 },
-	},
+  matrix.Builder {
+    matrix.Row{  10, -5.3,  22   },
+    matrix.Row{  -2, -25,   12   },
+    matrix.Row{   7,  5,   -12.5 },
+  },
 )
 ```
 
@@ -203,9 +203,9 @@ You can loop on a matrix this way:
 ```go
 myMatrix =: matrix.RandomMatrix( 5, 5 )
 for i := 0 ; i < myMatrix.Rows() ; i++ {
-	for j := 0 ; j < myMatrix.Cols() ; i++ {
-		printf( "%v\n", myMatrix.At( i, j ) )
-	}
+  for j := 0 ; j < myMatrix.Cols() ; i++ {
+    printf( "%v\n", myMatrix.At( i, j ) )
+  }
 }
 ```
 
@@ -379,11 +379,11 @@ use `IndexFor( row, col int ) float64`:
 
 ```go
 myMatrix, _ := matrix.Build(
-	matrix.Builder {
-		matrix.Row{  10.0, -5.3,   22.0 },
-		matrix.Row{ -2.0,  -25.0,  12.0 },
-		matrix.Row{  7.0,   5.3,  -12.5 },
-	},
+  matrix.Builder {
+    matrix.Row{  10.0, -5.3,   22.0 },
+    matrix.Row{ -2.0,  -25.0,  12.0 },
+    matrix.Row{  7.0,   5.3,  -12.5 },
+  },
 )
 println( myMatrix.IndexFor( 1, 2 ) ) // 7
 fmt.Printf( "%v\n", myMatrix[7] ) // 12
