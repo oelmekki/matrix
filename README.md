@@ -171,7 +171,7 @@ Values are randomized with standard normal distribution, using
 want it to be truly random).
 
 
-### Read
+## Read matrices
 
 ### `func ( matrix Matrix ) Rows() int`
 
