@@ -391,7 +391,7 @@ fmt.Printf( "%v\n", myMatrix[7] ) // 12
 
 This implementation was chosen because it's 50% faster than using a
 `[][]float64` to map the matrix. It's also slightly faster than using a
-`struct{ Rows int, Cols int, Values []float64` and prevent having to pass the
+`struct{ Rows int, Cols int, Values []float64 }` and prevent having to pass the
 Matrix by reference everywhere: since it's a slice, it's always a reference.
 
 if you need to iterate directly on matrix values for some performance critical
