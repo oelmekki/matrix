@@ -5,12 +5,6 @@ A small lib allowing to manipulate matrices.
 This is not intended to exhaustively implements all possible mathematical operations on matrices. Instead, it's just what I needed to build a neural network. That being said, it provides build blocks to easily extend it (see [`Extending` section](#extending)). If you feel some operation should be in there, feel free to send a pull request.
 
 
-## Update
-
-This is documentation for 2.0.0. This version introduced radical performance
-improvements (up by more than 50%), at the cost of breaking API changes. If you
-use 1.0.0, please [use its doc](https://github.com/oelmekki/matrix/tree/1.0.0).
-
 ## Install
 
 ```

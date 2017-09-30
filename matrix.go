@@ -13,15 +13,15 @@ type Builder []Row
 /*
  * Provide `true` if you want errors to panic
  */
-func SetDebug( debug bool ) {
+func SetDebug(debug bool) {
 	DEBUG = debug
 }
 
-func generateError( message string ) ( err error ) {
+func generateError(message string) (err error) {
 	if DEBUG {
-		panic( message )
+		panic(message)
 	} else {
-		err = fmt.Errorf( message )
+		err = fmt.Errorf(message)
 	}
 
 	return

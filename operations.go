@@ -10,12 +10,12 @@ import (
  *
  * Error is returned if matrix is not valid.
  */
-func ( matrix Matrix ) ScalarMultiply( scalar float64 ) ( resultMatrix Matrix, err error ) {
-	operation := func( value float64 ) float64 {
+func (matrix Matrix) ScalarMultiply(scalar float64) (resultMatrix Matrix, err error) {
+	operation := func(value float64) float64 {
 		return value * scalar
 	}
 
-	resultMatrix, err = matrix.UnaryOperation( operation, "ScalarMultiply" )
+	resultMatrix, err = matrix.UnaryOperation(operation, "ScalarMultiply")
 
 	return
 }
@@ -27,25 +27,25 @@ func ( matrix Matrix ) ScalarMultiply( scalar float64 ) ( resultMatrix Matrix, e
  * Error is returned if resultMatrix is undefined (that is, if matrix columns count is not
  * the same than otherMatrix rows count).
  */
-func ( matrix Matrix ) DotProduct( otherMatrix Matrix ) ( resultMatrix Matrix, err error ) {
+func (matrix Matrix) DotProduct(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	if matrix[1] != otherMatrix[0] {
-		err = generateError( fmt.Sprintf( "Can't multiply matrices: %v columns count do not match %v rows count", matrix, otherMatrix ) )
+		err = generateError(fmt.Sprintf("Can't multiply matrices: %v columns count do not match %v rows count", matrix, otherMatrix))
 		return
 	}
 
-	resultMatrix = GenerateMatrix( int(matrix[0]), int(otherMatrix[1]) )
+	resultMatrix = GenerateMatrix(int(matrix[0]), int(otherMatrix[1]))
 
-	for i := 0 ; i < int(resultMatrix[0]) ; i++ {
-		for j := 0 ; j < int(resultMatrix[1]) ; j++ {
+	for i := 0; i < int(resultMatrix[0]); i++ {
+		for j := 0; j < int(resultMatrix[1]); j++ {
 			sum := 0.0
 
-			for k := 0 ; k < int(matrix[1]) ; k++ {
-				valueInMatrix := matrix.At( i, k )
-				valueInOtherMatrix := otherMatrix.At( k, j )
+			for k := 0; k < int(matrix[1]); k++ {
+				valueInMatrix := matrix.At(i, k)
+				valueInOtherMatrix := otherMatrix.At(k, j)
 				sum += valueInMatrix * valueInOtherMatrix
 			}
 
-			resultMatrix[ resultMatrix.IndexFor( i, j ) ] = sum
+			resultMatrix[resultMatrix.IndexFor(i, j)] = sum
 		}
 	}
 
@@ -58,17 +58,17 @@ func ( matrix Matrix ) DotProduct( otherMatrix Matrix ) ( resultMatrix Matrix, e
  *
  * Error is returned if matrix is not valid.
  */
-func ( matrix Matrix ) Transpose() ( resultMatrix Matrix, err error ) {
-	if ! matrix.Valid() {
-		err = generateError( fmt.Sprintf( `Can't transpose matrix %v: matrix is not valid`, matrix ) )
+func (matrix Matrix) Transpose() (resultMatrix Matrix, err error) {
+	if !matrix.Valid() {
+		err = generateError(fmt.Sprintf(`Can't transpose matrix %v: matrix is not valid`, matrix))
 		return
 	}
 
-	resultMatrix = GenerateMatrix( int(matrix[1]), int(matrix[0]) )
+	resultMatrix = GenerateMatrix(int(matrix[1]), int(matrix[0]))
 
-	for i := 0 ; i < int(matrix[1]) ; i++ {
-		for j := 0 ; j < int(matrix[0]) ; j++ {
-			resultMatrix[ resultMatrix.IndexFor( i, j ) ] = matrix.At( j, i )
+	for i := 0; i < int(matrix[1]); i++ {
+		for j := 0; j < int(matrix[0]); j++ {
+			resultMatrix[resultMatrix.IndexFor(i, j)] = matrix.At(j, i)
 		}
 	}
 
@@ -81,12 +81,12 @@ func ( matrix Matrix ) Transpose() ( resultMatrix Matrix, err error ) {
  * Note that *this is not* standard mathematical matrix multiplication. For that one,
  * use `DotProduct()`.
  */
-func ( matrix Matrix ) MultiplyCells( otherMatrix Matrix ) ( resultMatrix Matrix, err error ) {
-	operation := func( value1 float64, value2 float64 ) float64 {
+func (matrix Matrix) MultiplyCells(otherMatrix Matrix) (resultMatrix Matrix, err error) {
+	operation := func(value1 float64, value2 float64) float64 {
 		return value1 * value2
 	}
 
-	resultMatrix, err = matrix.BinaryOperation( otherMatrix, operation, "MultiplyCells" )
+	resultMatrix, err = matrix.BinaryOperation(otherMatrix, operation, "MultiplyCells")
 	return
 }
 
@@ -95,12 +95,12 @@ func ( matrix Matrix ) MultiplyCells( otherMatrix Matrix ) ( resultMatrix Matrix
  *
  * Error is returned if matrices are not valid or do not have the same dimensions.
  */
-func ( matrix Matrix ) Add( otherMatrix Matrix ) ( resultMatrix Matrix, err error ) {
-	operation := func( value1 float64, value2 float64 ) float64 {
+func (matrix Matrix) Add(otherMatrix Matrix) (resultMatrix Matrix, err error) {
+	operation := func(value1 float64, value2 float64) float64 {
 		return value1 + value2
 	}
 
-	resultMatrix, err = matrix.BinaryOperation( otherMatrix, operation, "Add" )
+	resultMatrix, err = matrix.BinaryOperation(otherMatrix, operation, "Add")
 	return
 }
 
@@ -109,12 +109,12 @@ func ( matrix Matrix ) Add( otherMatrix Matrix ) ( resultMatrix Matrix, err erro
  *
  * Error is returned if matrices are not valid or do not have the same dimensions.
  */
-func ( matrix Matrix ) Substract( otherMatrix Matrix ) ( resultMatrix Matrix, err error ) {
-	operation := func( value1 float64, value2 float64 ) float64 {
+func (matrix Matrix) Substract(otherMatrix Matrix) (resultMatrix Matrix, err error) {
+	operation := func(value1 float64, value2 float64) float64 {
 		return value1 - value2
 	}
 
-	resultMatrix, err = matrix.BinaryOperation( otherMatrix, operation, "Substract" )
+	resultMatrix, err = matrix.BinaryOperation(otherMatrix, operation, "Substract")
 	return
 }
 
@@ -123,12 +123,12 @@ func ( matrix Matrix ) Substract( otherMatrix Matrix ) ( resultMatrix Matrix, er
  *
  * Error is returned if matrix is not valid.
  */
-func ( matrix Matrix ) Sigmoid() ( resultMatrix Matrix, err error ) {
-	operation := func( value float64 ) float64 {
-		return 1.0 / ( 1.0 + math.Exp( -value ) )
+func (matrix Matrix) Sigmoid() (resultMatrix Matrix, err error) {
+	operation := func(value float64) float64 {
+		return 1.0 / (1.0 + math.Exp(-value))
 	}
 
-	resultMatrix, err = matrix.UnaryOperation( operation, "Sigmoid" )
+	resultMatrix, err = matrix.UnaryOperation(operation, "Sigmoid")
 	return
 }
 
@@ -137,15 +137,17 @@ func ( matrix Matrix ) Sigmoid() ( resultMatrix Matrix, err error ) {
  *
  * Error is returned if matrix is not valid.
  */
-func ( matrix Matrix ) SigmoidDerivative() ( resultMatrix Matrix, err error ) {
+func (matrix Matrix) SigmoidDerivative() (resultMatrix Matrix, err error) {
 	resultMatrix, err = matrix.Sigmoid()
-	if err != nil { return resultMatrix, err }
-
-	operation := func( value float64 ) float64 {
-		return value * ( 1.0 - value )
+	if err != nil {
+		return resultMatrix, err
 	}
 
-	resultMatrix, err = resultMatrix.UnaryOperation( operation, "SigmoidDerivative" )
+	operation := func(value float64) float64 {
+		return value * (1.0 - value)
+	}
+
+	resultMatrix, err = resultMatrix.UnaryOperation(operation, "SigmoidDerivative")
 	return
 }
 
@@ -158,16 +160,16 @@ func ( matrix Matrix ) SigmoidDerivative() ( resultMatrix Matrix, err error ) {
  * `operationName` is used in error message, so that it's easier to know which
  * operation error'd.
  */
-func ( matrix Matrix ) BinaryOperation( otherMatrix Matrix, operation func( float64, float64 ) float64, operationName string ) ( resultMatrix Matrix, err error ) {
-	if ! matrix.SameDimensions( otherMatrix ) {
-		err = generateError( fmt.Sprintf( `Can't apply operation "%s" on matrices: %v is not the same dimension than %v`, operationName, matrix, otherMatrix ) )
+func (matrix Matrix) BinaryOperation(otherMatrix Matrix, operation func(float64, float64) float64, operationName string) (resultMatrix Matrix, err error) {
+	if !matrix.SameDimensions(otherMatrix) {
+		err = generateError(fmt.Sprintf(`Can't apply operation "%s" on matrices: %v is not the same dimension than %v`, operationName, matrix, otherMatrix))
 		return
 	}
 
-	resultMatrix = ZeroMatrixFrom( matrix )
+	resultMatrix = ZeroMatrixFrom(matrix)
 
-	for i := 2 ; i < len( matrix ) ; i++ {
-		resultMatrix[i] = operation( matrix[i], otherMatrix[i] )
+	for i := 2; i < len(matrix); i++ {
+		resultMatrix[i] = operation(matrix[i], otherMatrix[i])
 	}
 
 	return
@@ -177,16 +179,16 @@ func ( matrix Matrix ) BinaryOperation( otherMatrix Matrix, operation func( floa
  * Produce a new matrix by applying `operation` cell by cell on matrix, so that:
  *    operation( cell ) -> resultCell
  */
-func ( matrix Matrix ) UnaryOperation( operation func( float64 ) float64, operationName string ) ( resultMatrix Matrix, err error ) {
-	if ! matrix.Valid() {
-		err = generateError( fmt.Sprintf( `Can't apply operation "%s" on matrix %v: matrix is not valid`, operationName, matrix ) )
+func (matrix Matrix) UnaryOperation(operation func(float64) float64, operationName string) (resultMatrix Matrix, err error) {
+	if !matrix.Valid() {
+		err = generateError(fmt.Sprintf(`Can't apply operation "%s" on matrix %v: matrix is not valid`, operationName, matrix))
 		return
 	}
 
-	resultMatrix = ZeroMatrixFrom( matrix )
+	resultMatrix = ZeroMatrixFrom(matrix)
 
-	for i := 2 ; i < len( matrix ) ; i++ {
-		resultMatrix[i] = operation( matrix[i] )
+	for i := 2; i < len(matrix); i++ {
+		resultMatrix[i] = operation(matrix[i])
 	}
 
 	return
