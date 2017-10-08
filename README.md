@@ -190,6 +190,22 @@ Just like an array, you're responsible to make sure
 you don't ask for an out of range value.
 
 
+### `func ( matrix Matrix ) GetRow( index int ) ( row []float64, err error )`
+
+Return a whole row, as `[]float64`.
+
+As usual, index starts from 0.
+
+Returns error if requested index is out of matrix.
+
+
+## Setting values
+
+### `func ( matrix Matrix ) SetAt( row, col int, val float64 )`
+
+Set the given value in matrix at position `(row, col)` (zero-indexed).
+
+
 ### Looping on a matrix
 
 You can loop on a matrix this way:

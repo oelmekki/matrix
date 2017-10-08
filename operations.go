@@ -53,6 +53,49 @@ func (matrix Matrix) DotProduct(otherMatrix Matrix) (resultMatrix Matrix, err er
 }
 
 /*
+ * Multiply matrix by given vector, return a new []float64 vector.
+ *
+ * Error is returned is operation is not valid, that is if vector has not as many entries
+ * than there is matrix columns.
+ */
+func (matrix Matrix) VectorMultiply(vector []float64) (resultVector []float64, err error) {
+	if matrix.Cols() != len(vector) {
+		err = fmt.Errorf("Vector length (%d) and matrix columns count (%d) differ", len(vector), matrix.Cols())
+		return
+	}
+
+	fakeMatrix := GenerateMatrix(len(vector), 1)
+	for i := 0; i < len(vector); i++ {
+		fakeMatrix.SetAt(i, 0, vector[i])
+	}
+
+	resultMatrix, err := matrix.DotProduct(fakeMatrix)
+	if err != nil {
+		return
+	}
+
+	resultVector = make([]float64, resultMatrix.Rows())
+
+	fmt.Printf("matrix: %v\nfakeMatrix: %v\nresultMatrix: %v\n", matrix, fakeMatrix, resultMatrix)
+
+	for i := 0; i < resultMatrix.Rows(); i++ {
+		resultVector[i] = resultMatrix.At(i, 0)
+	}
+
+	return
+}
+
+/*
+ * Set value at given row and col.
+ *
+ * For backward compatibility reasons, you're responsible about making sure
+ * the position at row and col actually exists in the matrix.
+ */
+func (matrix Matrix) SetAt(row, col int, val float64) {
+	matrix[matrix.IndexFor(row, col)] = val
+}
+
+/*
  * Switch matrix dimensions, so that, eg, a 2x3 matrix returns
  * a 3x2 one.
  *

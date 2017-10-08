@@ -54,3 +54,19 @@ func (matrix Matrix) At(row, col int) float64 {
 func (matrix Matrix) IndexFor(row, col int) int {
 	return row*int(matrix[1]) + col + 2
 }
+
+/*
+ * Returns the given row (0-indexed) as a []float64
+ */
+func (matrix Matrix) GetRow(index int) (row []float64, err error) {
+	if index+1 > matrix.Rows() {
+		err = fmt.Errorf("Row %d is out of matrix", row)
+		return
+	}
+
+	for i := 0; i < matrix.Cols(); i++ {
+		row = append(row, matrix.At(index, i))
+	}
+
+	return
+}
