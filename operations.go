@@ -5,11 +5,10 @@ import (
 	"math"
 )
 
-/*
- * Multiply the matrix with a scalar.
- *
- * Error is returned if matrix is not valid.
- */
+// ScalarMultiply multiplies each cell of the matrix individually
+// with the provided value.
+//
+// Error is returned if matrix is not valid.
 func (matrix Matrix) ScalarMultiply(scalar float64) (resultMatrix Matrix, err error) {
 	operation := func(value float64) float64 {
 		return value * scalar
@@ -20,13 +19,11 @@ func (matrix Matrix) ScalarMultiply(scalar float64) (resultMatrix Matrix, err er
 	return
 }
 
-/*
- * Perform a mathematical standard multiplication between matrix and otherMatrix, and return
- * the resulting resultMatrix.
- *
- * Error is returned if resultMatrix is undefined (that is, if matrix columns count is not
- * the same than otherMatrix rows count).
- */
+// DotProduct performs a mathematical standard multiplication between matrix and otherMatrix,
+// and return the resulting resultMatrix.
+//
+// Error is returned if resultMatrix is undefined (that is, if matrix columns count is not
+// the same than otherMatrix rows count).
 func (matrix Matrix) DotProduct(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	if matrix[1] != otherMatrix[0] {
 		err = generateError(fmt.Sprintf("Can't multiply matrices: %v columns count do not match %v rows count", matrix, otherMatrix))
@@ -52,12 +49,10 @@ func (matrix Matrix) DotProduct(otherMatrix Matrix) (resultMatrix Matrix, err er
 	return
 }
 
-/*
- * Multiply matrix by given vector, return a new []float64 vector.
- *
- * Error is returned is operation is not valid, that is if vector has not as many entries
- * than there is matrix columns.
- */
+// VectorMultiply multiplies matrix by given vector, return a new []float64 vector.
+//
+// Error is returned is operation is not valid, that is if vector has not as many entries
+// than there is matrix columns.
 func (matrix Matrix) VectorMultiply(vector []float64) (resultVector []float64, err error) {
 	if matrix.Cols() != len(vector) {
 		err = fmt.Errorf("Vector length (%d) and matrix columns count (%d) differ", len(vector), matrix.Cols())
@@ -85,22 +80,18 @@ func (matrix Matrix) VectorMultiply(vector []float64) (resultVector []float64, e
 	return
 }
 
-/*
- * Set value at given row and col.
- *
- * For backward compatibility reasons, you're responsible about making sure
- * the position at row and col actually exists in the matrix.
- */
+// SetAt sets value at given row and col.
+//
+// For backward compatibility reasons, you're responsible for making sure
+// the position at row and col actually exists in the matrix.
 func (matrix Matrix) SetAt(row, col int, val float64) {
 	matrix[matrix.IndexFor(row, col)] = val
 }
 
-/*
- * Switch matrix dimensions, so that, eg, a 2x3 matrix returns
- * a 3x2 one.
- *
- * Error is returned if matrix is not valid.
- */
+// Transpose switches matrix dimensions, so that, eg, a 2x3 matrix returns
+// a 3x2 one.
+//
+// Error is returned if matrix is not valid.
 func (matrix Matrix) Transpose() (resultMatrix Matrix, err error) {
 	if !matrix.Valid() {
 		err = generateError(fmt.Sprintf(`Can't transpose matrix %v: matrix is not valid`, matrix))
@@ -118,12 +109,11 @@ func (matrix Matrix) Transpose() (resultMatrix Matrix, err error) {
 	return
 }
 
-/*
- * Multiply each cell from matrix with each cell at the same coordinate in otherMatrix.
- *
- * Note that *this is not* standard mathematical matrix multiplication. For that one,
- * use `DotProduct()`.
- */
+// MultiplyCells multiplies each cell from matrix with each cell at the same coordinate
+// in otherMatrix.
+//
+// Note that *this is not* standard mathematical matrix multiplication. For that one,
+// use `DotProduct()`.
 func (matrix Matrix) MultiplyCells(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 * value2
@@ -133,11 +123,9 @@ func (matrix Matrix) MultiplyCells(otherMatrix Matrix) (resultMatrix Matrix, err
 	return
 }
 
-/*
- * Add otherMatrix to matrix and return the resulting resultMatrix
- *
- * Error is returned if matrices are not valid or do not have the same dimensions.
- */
+// Add adds up otherMatrix to matrix and returns the resulting resultMatrix.
+//
+// Error is returned if matrices are not valid or do not have the same dimensions.
 func (matrix Matrix) Add(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 + value2
@@ -147,11 +135,9 @@ func (matrix Matrix) Add(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	return
 }
 
-/*
- * Substract otherMatrix from matrix and return the resulting resultMatrix
- *
- * Error is returned if matrices are not valid or do not have the same dimensions.
- */
+// Substract removes otherMatrix from matrix and returns the resulting resultMatrix.
+//
+// Error is returned if matrices are not valid or do not have the same dimensions.
 func (matrix Matrix) Substract(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 - value2
@@ -161,11 +147,9 @@ func (matrix Matrix) Substract(otherMatrix Matrix) (resultMatrix Matrix, err err
 	return
 }
 
-/*
- * Apply sigmoid function on each cell of matrix and return resulting Matrix
- *
- * Error is returned if matrix is not valid.
- */
+// Sigmoid applies sigmoid function on each cell of matrix and returns resulting Matrix.
+//
+// Error is returned if matrix is not valid.
 func (matrix Matrix) Sigmoid() (resultMatrix Matrix, err error) {
 	operation := func(value float64) float64 {
 		return 1.0 / (1.0 + math.Exp(-value))
@@ -175,11 +159,10 @@ func (matrix Matrix) Sigmoid() (resultMatrix Matrix, err error) {
 	return
 }
 
-/*
- * Compute derivative for sigmoid function on each cell of matrix and return resulting Matrix
- *
- * Error is returned if matrix is not valid.
- */
+// SigmoidDerivative computes derivative for sigmoid function on each cell of matrix
+// and returns resulting Matrix.
+//
+// Error is returned if matrix is not valid.
 func (matrix Matrix) SigmoidDerivative() (resultMatrix Matrix, err error) {
 	resultMatrix, err = matrix.Sigmoid()
 	if err != nil {
@@ -194,15 +177,15 @@ func (matrix Matrix) SigmoidDerivative() (resultMatrix Matrix, err error) {
 	return
 }
 
-/*
- * Produce a new matrix by applying `operation` cell by cell on two matrices, so that:
- *    operation( cell1, cell2 ) -> resultCell
- *
- * Returns error if both matrices aren't of same dimensions.
- *
- * `operationName` is used in error message, so that it's easier to know which
- * operation error'd.
- */
+// BinaryOperation produces a new matrix by applying `operation` cell by cell on
+// two matrices, so that:
+//
+//    operation(cell1, cell2) -> resultCell
+//
+// `operationName` is used in error message, so that it's easier to know which
+// operation error'd.
+//
+// Returns error if both matrices aren't of same dimensions.
 func (matrix Matrix) BinaryOperation(otherMatrix Matrix, operation func(float64, float64) float64, operationName string) (resultMatrix Matrix, err error) {
 	if !matrix.SameDimensions(otherMatrix) {
 		err = generateError(fmt.Sprintf(`Can't apply operation "%s" on matrices: %v is not the same dimension than %v`, operationName, matrix, otherMatrix))
@@ -218,10 +201,15 @@ func (matrix Matrix) BinaryOperation(otherMatrix Matrix, operation func(float64,
 	return
 }
 
-/*
- * Produce a new matrix by applying `operation` cell by cell on matrix, so that:
- *    operation( cell ) -> resultCell
- */
+// UnaryOperation produces a new matrix by applying `operation` cell by cell
+// on matrix, so that:
+//
+//    operation(cell) -> resultCell
+//
+// `operationName` is used in error message, so that it's easier to know which
+// operation error'd.
+//
+// Returns error if both matrices aren't of same dimensions.
 func (matrix Matrix) UnaryOperation(operation func(float64) float64, operationName string) (resultMatrix Matrix, err error) {
 	if !matrix.Valid() {
 		err = generateError(fmt.Sprintf(`Can't apply operation "%s" on matrix %v: matrix is not valid`, operationName, matrix))
