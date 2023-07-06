@@ -4,23 +4,17 @@ import (
 	"fmt"
 )
 
-/*
- * Returns the number of rows
- */
+// Rows returns the number of rows in the matrix.
 func (matrix Matrix) Rows() int {
 	return int(matrix[0])
 }
 
-/*
- * Returns the number of columns
- */
+// Cols returns the number of columns in the matrix.
 func (matrix Matrix) Cols() int {
 	return int(matrix[1])
 }
 
-/*
- * Returns a human readable representation of matrix, ready to print
- */
+// String returns a human readable representation of matrix, ready to print.
 func (matrix Matrix) String() string {
 	output := "\n"
 	for i := 0; i < int(matrix[0]); i++ {
@@ -37,30 +31,24 @@ func (matrix Matrix) String() string {
 	return output
 }
 
-/*
- * Returns the value at position `row`, `col`.
- *
- * Just like an array, you're responsible to make sure
- * you don't ask for an out of range value.
- */
+// At returns the value at position `row`, `col`.
+//
+// Just like an array, you're responsible to make sure
+// you don't ask for an out of range value.
 func (matrix Matrix) At(row, col int) float64 {
 	return matrix[matrix.IndexFor(row, col)]
 }
 
-/*
- * Low level method: allow to compute the flat array index
- * for a matrix position.
- */
+// IndexFor computes the position of given cell in the underlying
+// array representation.
 func (matrix Matrix) IndexFor(row, col int) int {
 	return row*int(matrix[1]) + col + 2
 }
 
-/*
- * Returns the given row (0-indexed) as a []float64
- */
+// GetRow returns the given row (0-indexed) as a []float64.
 func (matrix Matrix) GetRow(index int) (row []float64, err error) {
 	if index+1 > matrix.Rows() {
-		err = fmt.Errorf("Row %d is out of matrix", row)
+		err = fmt.Errorf("Row %d is out of matrix", index)
 		return
 	}
 
