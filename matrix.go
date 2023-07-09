@@ -40,6 +40,10 @@ func (matrix Matrix) Valid() bool {
  * values in each cell.
  */
 func (matrix Matrix) EqualTo(otherMatrix Matrix) bool {
+	if len(matrix) != len(otherMatrix) {
+		return false
+	}
+
 	for i := 0; i < len(matrix); i++ {
 		if matrix[i] != otherMatrix[i] {
 			return false

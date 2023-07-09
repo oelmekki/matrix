@@ -71,8 +71,6 @@ func (matrix Matrix) VectorMultiply(vector []float64) (resultVector []float64, e
 
 	resultVector = make([]float64, resultMatrix.Rows())
 
-	fmt.Printf("matrix: %v\nfakeMatrix: %v\nresultMatrix: %v\n", matrix, fakeMatrix, resultMatrix)
-
 	for i := 0; i < resultMatrix.Rows(); i++ {
 		resultVector[i] = resultMatrix.At(i, 0)
 	}
@@ -114,6 +112,8 @@ func (matrix Matrix) Transpose() (resultMatrix Matrix, err error) {
 //
 // Note that *this is not* standard mathematical matrix multiplication. For that one,
 // use `DotProduct()`.
+//
+// Returns error if matrices are not valid or do not have the same dimensions.
 func (matrix Matrix) MultiplyCells(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 * value2
@@ -125,7 +125,7 @@ func (matrix Matrix) MultiplyCells(otherMatrix Matrix) (resultMatrix Matrix, err
 
 // Add adds up otherMatrix to matrix and returns the resulting resultMatrix.
 //
-// Error is returned if matrices are not valid or do not have the same dimensions.
+// Returns error if matrices are not valid or do not have the same dimensions.
 func (matrix Matrix) Add(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 + value2
@@ -137,7 +137,7 @@ func (matrix Matrix) Add(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 
 // Substract removes otherMatrix from matrix and returns the resulting resultMatrix.
 //
-// Error is returned if matrices are not valid or do not have the same dimensions.
+// Returns error if matrices are not valid or do not have the same dimensions.
 func (matrix Matrix) Substract(otherMatrix Matrix) (resultMatrix Matrix, err error) {
 	operation := func(value1 float64, value2 float64) float64 {
 		return value1 - value2
@@ -209,7 +209,7 @@ func (matrix Matrix) BinaryOperation(otherMatrix Matrix, operation func(float64,
 // `operationName` is used in error message, so that it's easier to know which
 // operation error'd.
 //
-// Returns error if both matrices aren't of same dimensions.
+// Returns error if matrix is invalid.
 func (matrix Matrix) UnaryOperation(operation func(float64) float64, operationName string) (resultMatrix Matrix, err error) {
 	if !matrix.Valid() {
 		err = generateError(fmt.Sprintf(`Can't apply operation "%s" on matrix %v: matrix is not valid`, operationName, matrix))
